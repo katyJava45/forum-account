@@ -45,7 +45,7 @@ public class UserAccountController {
 	
 	@DeleteMapping("/user/{login}")
 	public UserAccountResponseDto deleteUser(@PathVariable String login) {
-		return accountService.removeUser(login);
+		return accountService.removeUser(login);  
 	}
 	
 	@PutMapping("/user/{login}")

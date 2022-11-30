@@ -61,7 +61,7 @@ public class UserAccountServiceImpl implements UserAccountService {
 	@Override
 	public RolesResponseDto changeRolesList(String login, String role, boolean isAddRole) {
 		UserAccount userAccount = repository.findById(login).orElseThrow(() -> new UserNotFoundException(login));
-		if(isAddRole) {
+		if(isAddRole) { 
 			userAccount.addRole(role);
 		} else {
 			if(userAccount.getRoles().contains(role)) {
