@@ -1,5 +1,6 @@
 package telran.java45.accounting.controller;
 
+import java.security.Principal;
 import java.util.Base64;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -32,16 +33,16 @@ public class UserAccountController {
 	}
 	
 	@PostMapping("/login")
-	public UserAccountResponseDto login(@RequestHeader("Authorization") String token) {
-		String[] credentials = getCredentials(token);
-		return accountService.getUser(credentials[0]);
+	public UserAccountResponseDto login(Principal principal) {
+		
+		return accountService.getUser(principal.getName());
 	}
 
-	private String[] getCredentials(String token) {
-		String[] basicAuth = token.split(" ");
-		String decode = new String(Base64.getDecoder().decode(basicAuth[1]));
-		return decode.split(":");
-	}
+//	private String[] getCredentials(String token) {
+//		String[] basicAuth = token.split(" ");
+//		String decode = new String(Base64.getDecoder().decode(basicAuth[1]));
+//		return decode.split(":");
+//	}
 	
 	@DeleteMapping("/user/{login}")
 	public UserAccountResponseDto deleteUser(@PathVariable String login) {
@@ -64,8 +65,8 @@ public class UserAccountController {
 	}
 	
 	@PutMapping("/password")
-	public void changePassword(@RequestHeader ("Authorization") String token,@RequestHeader("X-Password") String newPassword) {
-		String[] credentials = getCredentials(token);
-		accountService.changePassword(credentials[0], newPassword);
+	public void changePassword(Principal principal,@RequestHeader("X-Password") String newPassword) {
+//		String[] credentials = getCredentials(token);
+		accountService.changePassword(principal.getName(), newPassword);
 	}
 }
